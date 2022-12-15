@@ -11,6 +11,7 @@ namespace PixTerm {
 		bool Clear(unsigned char c);
 
 		bool DrawPoints(const Buffer& buffer, unsigned char c);
+		bool DrawLines(const Buffer& buffer, unsigned char c);
 
 		bool Render();
 

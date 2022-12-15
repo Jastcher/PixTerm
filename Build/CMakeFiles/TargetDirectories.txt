@@ -1,0 +1,4 @@
+/home/jastcher/Programming/c++/Pixterm/Build/CMakeFiles/PixTerm.dir
+/home/jastcher/Programming/c++/Pixterm/Build/CMakeFiles/Application.dir
+/home/jastcher/Programming/c++/Pixterm/Build/CMakeFiles/edit_cache.dir
+/home/jastcher/Programming/c++/Pixterm/Build/CMakeFiles/rebuild_cache.dir

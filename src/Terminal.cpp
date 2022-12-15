@@ -32,6 +32,11 @@ namespace PixTerm {
 		return 1;
 	}
 
+	bool Terminal::DrawLines(const Buffer &buffer, unsigned char c) {
+		// KODI TODO
+
+	}
+
 	int Terminal::GetX(float x) {
 		return width * (x + 1) / 2;
 	}

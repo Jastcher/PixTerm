@@ -1,0 +1,2 @@
+/usr/bin/ar qc libPixTerm.a CMakeFiles/PixTerm.dir/src/Buffer.cpp.o CMakeFiles/PixTerm.dir/src/Terminal.cpp.o
+/usr/bin/ranlib libPixTerm.a
