@@ -1,5 +1,7 @@
 #pragma once
-#include "../include/Pixterm.h"
+
+#include <vector>
+#include "Buffer.h"
 
 namespace PixTerm {
 	
