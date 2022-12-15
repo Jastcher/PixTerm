@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/PixTerm.dir/cmake_pch.hxx.gch"
-  "CMakeFiles/PixTerm.dir/cmake_pch.hxx.gch.d"
+  "CMakeFiles/PixTerm.dir/cmake_pch.hxx.pch"
+  "CMakeFiles/PixTerm.dir/cmake_pch.hxx.pch.d"
   "CMakeFiles/PixTerm.dir/src/Buffer.cpp.o"
   "CMakeFiles/PixTerm.dir/src/Buffer.cpp.o.d"
   "CMakeFiles/PixTerm.dir/src/Terminal.cpp.o"
