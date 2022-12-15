@@ -5,7 +5,7 @@ namespace PixTerm {
 	
 	class Terminal {
 	public:
-		Terminal();
+		Terminal(unsigned int _width = 15, unsigned int _height = 10);
 		~Terminal();
 
 		bool Clear(unsigned char c);

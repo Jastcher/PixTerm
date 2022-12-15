@@ -2,9 +2,8 @@
 
 namespace PixTerm {
 
-	Terminal::Terminal() {
-		width = 15;
-		height = 10;
+	Terminal::Terminal(unsigned int _width, unsigned int _height)
+		: width(_width), height(_height) {
 
 		screen = (unsigned char*)malloc(width * height);
 		screenUpdate = (unsigned char*)malloc(width * height);

@@ -3,9 +3,9 @@
 
 int main() {
 
-	PixTerm::Terminal term = PixTerm::Terminal();
+	PixTerm::Terminal term = PixTerm::Terminal(30,25);
 
-	term.Clear('x');
+	term.Clear(' ');
 
 	float pointVertices[6] = { -0.5f, 0.0f,
 							    0.5f, 0.0f,
@@ -16,9 +16,5 @@ int main() {
 	term.DrawPoints(pointBuffer, 'a');
 	term.Render();
 
-	for (int i = 0; i < 5; i++) {
-		term.Clear('a' + i);
-		term.Render();
-	}
 
 }

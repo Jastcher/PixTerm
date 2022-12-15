@@ -1,5 +1,0 @@
-
-class Terminal {
-public:
-	Terminal() {};
-};
