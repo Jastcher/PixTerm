@@ -39,7 +39,7 @@ namespace PixTerm {
 			int x1 = GetX(buffer.mData[i]); 
 			int y1 = GetY(buffer.mData[i+1]); 
 			int x2 = GetX(buffer.mData[i+2]); 
-			int y3 = GetY(buffer.mData[i+3]); 
+			int y2 = GetY(buffer.mData[i+3]); 
 			
 			int dx = x2-x1;
 			int dy = y2-y1;
