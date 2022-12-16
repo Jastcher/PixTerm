@@ -24,6 +24,8 @@ namespace PixTerm {
 		int GetX(float x);
 		int GetY(float y);
 		void EraseLine(int y);
+		
+		bool DrawPointMatrix(unsigned int x, unsigned int y);
 
 		unsigned char* screen;
 		unsigned char* screenUpdate;
