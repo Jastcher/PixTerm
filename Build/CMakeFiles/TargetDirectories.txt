@@ -1,4 +1,0 @@
-/home/kali/Documents/programming/PixTerm/Build/CMakeFiles/PixTerm.dir
-/home/kali/Documents/programming/PixTerm/Build/CMakeFiles/Application.dir
-/home/kali/Documents/programming/PixTerm/Build/CMakeFiles/edit_cache.dir
-/home/kali/Documents/programming/PixTerm/Build/CMakeFiles/rebuild_cache.dir
