@@ -7,13 +7,20 @@ int main() {
 
 	term.Clear(' ');
 
-	float pointVertices[6] = { -0.5f, 0.0f,
+	float pointVertices[12] = { -0.5f, 0.0f,
 							    0.5f, 0.0f,
-								0.0f, 0.5f };
 
-	PixTerm::Buffer pointBuffer(pointVertices, 6);
+							    0.5f, 0.0f,
+								0.0f, 0.5f,
 
-	term.DrawPoints(pointBuffer, 'a');
+								0.0f, 0.5f,
+								-0.5f, 0.0f
+
+								 };
+
+	PixTerm::Buffer pointBuffer(pointVertices, 12);
+
+	term.DrawLines(pointBuffer, 'a');
 	term.Render();
 
 

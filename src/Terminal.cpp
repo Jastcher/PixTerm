@@ -24,14 +24,15 @@ namespace PixTerm {
 		for (int i = 0; i < buffer.mSize; i+=2) {
 			int x = GetX(buffer.mData[i]); 
 			int y = GetY(buffer.mData[i+1]); 
-			DrawPointMatrix(x, y);
+			DrawPointMatrix(x, y, c);
 		}
 
 		return 1;
 	}
-	bool Terminal::DrawPointMatrix(unsigned int x, unsigned int y) {
+	bool Terminal::DrawPointMatrix(unsigned int x, unsigned int y, unsigned char c) {
 		logger.push_back("Drawing point in: " + std::to_string(x) + " ; " + std::to_string(y));
 		screen[y * width + x] = c;
+		return 1;
 	}
 
 	bool Terminal::DrawLines(const Buffer &buffer, unsigned char c) {
@@ -45,8 +46,8 @@ namespace PixTerm {
 			int dy = y2-y1;
 
 			for (int x = x1; x < x2; x++) {
-				int y = (y1 + dy * (x-x1)) / dx;
-				DrawPointMatrix(x, y);
+				int y = y1 + dy * (x-x1) / dx;
+				DrawPointMatrix(x, y, c);
 			}
 		}
 
