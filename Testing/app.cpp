@@ -3,11 +3,11 @@
 
 int main() {
 
-	PixTerm::Terminal term = PixTerm::Terminal(30,25);
+	PixTerm::Terminal term = PixTerm::Terminal(30,30);
 
 	term.Clear(' ');
 
-	float pointVertices[12] = { -0.5f, 0.0f,
+	float lineVertices[12] = { -0.5f, 0.0f,
 							    0.5f, 0.0f,
 
 							    0.5f, 0.0f,
@@ -18,10 +18,19 @@ int main() {
 
 								 };
 
-	PixTerm::Buffer pointBuffer(pointVertices, 12);
+	float triangleVertices[6] = { -0.5f, -0.5f,
+								  0.5f, -0.5f,
+								  0.0f, 0.5f};
 
-	term.DrawLines(pointBuffer, 'a');
+
+	PixTerm::Buffer lineBuffer(lineVertices, 12);
+	PixTerm::Buffer TriangleBuffer(triangleVertices, 6);
+
+	term.DrawLines(lineBuffer, 'a');
+	term.DrawTriangles(TriangleBuffer, 'b');
+	term.DrawOverlay();
+
 	term.Render();
 
-
+	term.PrintLogger();
 }
