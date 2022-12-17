@@ -53,18 +53,37 @@ namespace PixTerm {
 		int dx = x2-x1;
 		int dy = y2-y1;
 
-		if (x1 < x2){
+		if (abs(x1 - x2) > abs(y1 - y2)) {
+
+			if (x1 > x2) {
+				for (int x = x2; x < x1; x++) {
+					int y = y1 + dy * (x-x1) / dx;
+					DrawPointMatrix(x, y, c);
+				}
+				return 1;
+			}
+
 			for (int x = x1; x < x2; x++) {
 				int y = y1 + dy * (x-x1) / dx;
 				DrawPointMatrix(x, y, c);
 			}
+
 		} else {
-			for (int x = x2; x < x1; x++) {
-				int y = y1 + dy * (x-x1) / dx;
+
+			if (y1 > y2) {
+				for (int y = y2; y < y1; y++) {
+					int x = x1 + dx * (y-y1) / dy;
+					DrawPointMatrix(x, y, c);
+				}
+			}
+
+			for (int y = y1; y < y2; y++) {
+				int x = x1 + dx * (y-y1) / dy;
 				DrawPointMatrix(x, y, c);
 			}
 
 		}
+
 		return 1;
 
 	}
