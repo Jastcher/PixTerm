@@ -3,7 +3,7 @@
 
 int main() {
 
-	PixTerm::Terminal term = PixTerm::Terminal(30,30);
+	PixTerm::Terminal term = PixTerm::Terminal(50,50);
 
 	term.Clear(' ');
 
@@ -32,5 +32,5 @@ int main() {
 
 	term.Render();
 
-	term.PrintLogger();
+	//term.PrintLogger();
 }
