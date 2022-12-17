@@ -1,0 +1,1 @@
+/usr/bin/clang++ CMakeFiles/Application.dir/Testing/app.cpp.o -o Application  libPixTerm.a 
