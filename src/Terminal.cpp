@@ -29,11 +29,18 @@ namespace PixTerm {
 
 		return 1;
 	}
-	bool Terminal::DrawPointMatrix(unsigned int x, unsigned int y, unsigned char c) {
+	bool Terminal::DrawPointMatrix(int x, int y, unsigned char c) {
 		logger.push_back("Drawing point in: " + std::to_string(x) + " ; " + std::to_string(y));
+		if (x < 0 || y < 0 || x > width || y > height) return 0;
 		screen[y * width + x] = c;
+
 		return 1;
 	}
+	bool Terminal::DrawPoint(const Transform& t, unsigned char c) {
+		DrawPointMatrix(t.x, t.y, c);
+
+		return 1;
+	};
 
 	bool Terminal::DrawLines(const Buffer &buffer, unsigned char c) {
 		for (int i = 0; i < buffer.mSize; i+=4) {
@@ -95,7 +102,7 @@ namespace PixTerm {
 	}
 
 	void Terminal::EraseLine(int y) {
-		logger.push_back("Erasing line: " + std::to_string(y));
+		//logger.push_back("Erasing line: " + std::to_string(y));
 		printf("\033[%d;%dH\033[K", y + 1, 1);
 	}
 
