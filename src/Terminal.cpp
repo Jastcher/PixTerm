@@ -77,7 +77,7 @@ namespace PixTerm {
 
 		} else {
 
-			if (y1 > y2) {
+			if (y1 > y2) {
 				for (int y = y2; y < y1; y++) {
 					int x = x1 + dx * (y-y1) / dy;
 					DrawPointMatrix(x, y, c);

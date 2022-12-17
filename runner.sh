@@ -1,6 +1,7 @@
 #! /bin/bash
 
-cd Build
+dir=$(dirname $(which $0 2>/dev/null || realpath ./$0))
+cd $dir/Build
 cmake ../
 mv compile_commands.json ../
 
