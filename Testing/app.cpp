@@ -41,5 +41,5 @@ int main() {
 	term.Render();
 
 
-	term.PrintLogger();
+	//term.PrintLogger();
 }

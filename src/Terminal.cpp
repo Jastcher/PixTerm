@@ -1,4 +1,7 @@
 #include "../include/Pixterm.h"
+#include <algorithm>
+#include <tuple>
+#include <utility>
 
 namespace PixTerm {
 
@@ -60,37 +63,39 @@ namespace PixTerm {
 		int dx = x2-x1;
 		int dy = y2-y1;
 
+		int i,j;
 		if (abs(x1 - x2) > abs(y1 - y2)) {
 
 			if (x1 > x2) {
-				for (int x = x2; x < x1; x++) {
-					int y = y1 + dy * (x-x1) / dx;
-					DrawPointMatrix(x, y, c);
-				}
-				return 1;
+				i = x2;
+				j = x1;
+			} else {
+				i = x1;
+				j = x2;
 			}
 
-			for (int x = x1; x < x2; x++) {
+			for (int x = i; x < j; x++) {
 				int y = y1 + dy * (x-x1) / dx;
 				DrawPointMatrix(x, y, c);
 			}
 
 		} else {
 
-			if (y1 > y2) {
-				for (int y = y2; y < y1; y++) {
-					int x = x1 + dx * (y-y1) / dy;
-					DrawPointMatrix(x, y, c);
-				}
+			if  (y1 > y2) {
+				i = y2;
+				j = y1;
+			} else {
+				i = y1;
+				j = y2;
 			}
 
-			for (int y = y1; y < y2; y++) {
+			for (int y = i; y < j; y++) {
 				int x = x1 + dx * (y-y1) / dy;
 				DrawPointMatrix(x, y, c);
 			}
 
 		}
-
+		
 		return 1;
 
 	}

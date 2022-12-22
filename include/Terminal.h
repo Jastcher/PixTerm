@@ -44,6 +44,7 @@ namespace PixTerm {
 		
 		bool DrawPointMatrix(int x, int y, unsigned char c);
 		bool DrawLineMatrix(int x1, int y1, int x2, int y2, unsigned char c);
+		
 
 		unsigned char* screen;
 		unsigned char* screenUpdate;
