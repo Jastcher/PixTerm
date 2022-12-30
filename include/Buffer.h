@@ -6,6 +6,7 @@ namespace PixTerm {
 
 	class Buffer {
 	public:
+		Buffer();
 		Buffer(float* data, size_t size);
 		~Buffer();
 

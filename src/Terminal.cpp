@@ -1,12 +1,12 @@
 #include "../include/Pixterm.h"
-#include <algorithm>
-#include <tuple>
-#include <utility>
 
 namespace PixTerm {
 
 	Terminal::Terminal(unsigned int _width, unsigned int _height)
 		: width(_width), height(_height) {
+		
+		quadBuffer.mData = quadVertices;
+		quadBuffer.mSize = 12;
 
 		screen = (unsigned char*)malloc(width * height);
 		screenUpdate = (unsigned char*)malloc(width * height);
@@ -14,6 +14,8 @@ namespace PixTerm {
 	}
 
 	Terminal::~Terminal() {
+		EraseLine(height);
+		std::cout << "DESTROYING" << std::endl;
 		delete screen;
 		delete screenUpdate;
 	};
@@ -27,23 +29,11 @@ namespace PixTerm {
 		for (int i = 0; i < buffer.mSize; i+=2) {
 			int x = GetX(buffer.mData[i]); 
 			int y = GetY(buffer.mData[i+1]); 
-			DrawPointMatrix(x, y, c);
+			DrawPoint(x, y, c);
 		}
 
 		return 1;
 	}
-	bool Terminal::DrawPointMatrix(int x, int y, unsigned char c) {
-		logger.push_back("Drawing point in: " + std::to_string(x) + " ; " + std::to_string(y));
-		if (x < 0 || y < 0 || x > width || y > height) return 0;
-		screen[y * width + x] = c;
-
-		return 1;
-	}
-	bool Terminal::DrawPoint(const Transform& t, unsigned char c) {
-		DrawPointMatrix(t.x, t.y, c);
-
-		return 1;
-	};
 
 	bool Terminal::DrawLines(const Buffer &buffer, unsigned char c) {
 		for (int i = 0; i < buffer.mSize; i+=4) {
@@ -52,13 +42,39 @@ namespace PixTerm {
 			int x2 = GetX(buffer.mData[i+2]); 
 			int y2 = GetY(buffer.mData[i+3]); 
 
-			DrawLineMatrix(x1, y1, x2, y2, c);
+			DrawLine(x1, y1, x2, y2, c);
 		}
 
 		return 1;
 	}
 
-	bool Terminal::DrawLineMatrix(int x1, int y1, int x2, int y2, unsigned char c) {
+
+	bool Terminal::DrawTriangles(const Buffer &buffer, unsigned char c, const glm::mat4& model) {
+		for (int i = 0; i < buffer.mSize; i += 6) {
+			int x1 = GetX(buffer.mData[i]); 
+			int y1 = GetY(buffer.mData[i+1]); 
+			int x2 = GetX(buffer.mData[i+2]); 
+			int y2 = GetY(buffer.mData[i+3]); 
+			int x3 = GetX(buffer.mData[i+4]); 
+			int y3 = GetY(buffer.mData[i+5]); 
+
+			DrawTriangle(x1, y1, x2, y2, x3, y3, c, model);
+
+		}
+
+		return 1;
+	}
+
+	bool Terminal::DrawPoint(int x, int y, unsigned char c, const glm::mat4& model) {
+		logger.push_back("Drawing point in: " + std::to_string(x) + " ; " + std::to_string(y));
+		glm::vec2 pos = (model * glm::vec4(x,y,0,1));
+		if (pos.x < 0 || pos.y < 0 || pos.x > width || pos.y > height) return 0;
+		screen[(int)pos.y * width + (int)pos.x] = c;
+
+		return 1;
+	}
+
+	bool Terminal::DrawLine(int x1, int y1, int x2, int y2, unsigned char c, const glm::mat4& model) {
 		logger.push_back("Drawing line in: " + std::to_string(x1) + " , " + std::to_string(y1) + " and " + std::to_string(x2) + " , " + std::to_string(y2));
 		int dx = x2-x1;
 		int dy = y2-y1;
@@ -74,9 +90,9 @@ namespace PixTerm {
 				j = x2;
 			}
 
-			for (int x = i; x < j; x++) {
+			for (int x = i; x <= j; x++) {
 				int y = y1 + dy * (x-x1) / dx;
-				DrawPointMatrix(x, y, c);
+				DrawPoint(x, y, c, model);
 			}
 
 		} else {
@@ -89,9 +105,9 @@ namespace PixTerm {
 				j = y2;
 			}
 
-			for (int y = i; y < j; y++) {
+			for (int y = i; y <= j; y++) {
 				int x = x1 + dx * (y-y1) / dy;
-				DrawPointMatrix(x, y, c);
+				DrawPoint(x, y, c, model);
 			}
 
 		}
@@ -100,22 +116,22 @@ namespace PixTerm {
 
 	}
 
-	bool Terminal::DrawTriangles(const Buffer &buffer, unsigned char c) {
-		for (int i = 0; i < buffer.mSize; i += 6) {
-			int x1 = GetX(buffer.mData[i]); 
-			int y1 = GetY(buffer.mData[i+1]); 
-			int x2 = GetX(buffer.mData[i+2]); 
-			int y2 = GetY(buffer.mData[i+3]); 
-			int x3 = GetX(buffer.mData[i+4]); 
-			int y3 = GetY(buffer.mData[i+5]); 
+	bool Terminal::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned char c, const glm::mat4& model) {
+		logger.push_back("Drawing triangle in: " + std::to_string(x1) + " , " + std::to_string(y1) + " and " + std::to_string(x2) + " , " + std::to_string(y2) + " and " + std::to_string(x3) + " , " + std::to_string(y3));
+		bool first = DrawLine(x1, y1, x2, y2, c, model);
+		bool second = DrawLine(x2, y2, x3, y3, c, model);
+		bool third = DrawLine(x3, y3, x1, y1, c, model);
+		return first || second || third;
+	}
 
-			DrawLineMatrix(x1, y1, x2, y2, c);
-			DrawLineMatrix(x2, y2, x3, y3, c);
-			DrawLineMatrix(x3, y3, x1, y1, c);
-		}
-
-		return 1;
-
+	bool Terminal::DrawQuad(int x, int y, int width, int height, unsigned char c, const glm::mat4& model) {
+		logger.push_back("Drawing quad in: " + std::to_string(x) + " , " + std::to_string(y) + " width: " + std::to_string(width) + " height: " + std::to_string(height)); 
+		bool first = DrawTriangle(x, y, x + width, y, x, y + height, c, model);
+		bool second = DrawTriangle(x, y + height, x + width, y + height, x + width, y, c, model);
+		return first || second;
+	}
+	bool Terminal::DrawQuad(unsigned char c, const glm::mat4& model) {
+		return DrawTriangles(quadBuffer, c, model);
 	}
 
 	int Terminal::GetX(float x) {

@@ -5,40 +5,28 @@ int main() {
 
 	PixTerm::Terminal term = PixTerm::Terminal(50,50);
 
-	term.Clear(' ');
 
-	float lineVertices[12] = { -0.5f, 0.0f,
-							    0.5f, 0.0f,
+	//float rot = 0.0f;
+	//for (;;) {
+	//	if (rot > 360.0f) rot = 0;
+	//	rot += 0.01f;
+	//	term.Clear(' ');
 
-							    0.5f, 0.0f,
-								0.0f, 0.5f,
+	//	glm::mat4 model = glm::mat4(1.0f);
+	//	model = glm::translate(model, glm::vec3(10));
+	//	model = glm::rotate(model, glm::radians(rot), glm::vec3(1.0f, 1.0f, 1.0f));
+	//	model = glm::scale(model, glm::vec3(1.5f));
 
-								0.0f, 0.5f,
-								-0.5f, 0.0f
-								 };
+	//	//term.DrawTriangles(buffer, 'o', model);
+	//	term.DrawQuad('z', model);
 
-	float triangleVertices[6] = { -1.5f, -0.5f,
-								  0.5f, -0.5f,
-								  0.0f, 0.5f
-								};
-
-	float vertices[4] {
-		-1.0f, 0.2f,
-		 1.0f, -0.2f
-	};
+	//	term.DrawOverlay();
+	//	term.Render();
+	//}
 
 
-	PixTerm::Buffer lineBuffer(lineVertices, 12);
-	PixTerm::Buffer TriangleBuffer(triangleVertices, 6);
-	PixTerm::Buffer buffer(vertices, 4);
+	return 0;
 
-	//term.DrawLines(lineBuffer, 'a');
-	term.DrawTriangles(TriangleBuffer, 'b');
-	//term.DrawLines(buffer, '?');
-	//term.DrawPoint({25,25}, 'p');
-	//term.DrawPoint({-25,15}, 'p');
-	term.DrawOverlay();
-	term.Render();
 
 
 	//term.PrintLogger();

@@ -12,11 +12,11 @@ file(GLOB_RECURSE SRC_FILES src/*.cpp)
 file(GLOB_RECURSE SRC_CLIENT_FILES Testing/*.cpp)
 
 add_library(PixTerm STATIC ${SRC_FILES})
-target_include_directories(PixTerm PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(PixTerm PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/Vendor)
 target_precompile_headers(PixTerm PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/Pixterm.h)
 
 add_executable(Application ${SRC_CLIENT_FILES})
-target_include_directories(Application PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(Application PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/Vendor )
 target_precompile_headers(Application PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/Pixterm.h)
 target_link_libraries(Application PUBLIC PixTerm)
 
