@@ -33,8 +33,9 @@ namespace PixTerm {
 		bool DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned char c);
 		bool DrawQuad(int x, int y, int width, int height, unsigned char c);
 
-		bool Render();
 		bool DrawOverlay();
+
+		bool Render();
 
 		bool PrintLogger();
 
@@ -45,7 +46,6 @@ namespace PixTerm {
 		int GetY(float y);
 		void EraseLine(int y);
 		
-
 		unsigned char* screen;
 		unsigned char* screenUpdate;
 
