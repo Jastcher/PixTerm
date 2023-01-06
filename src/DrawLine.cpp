@@ -20,7 +20,7 @@ namespace PixTerm {
 		int dx = x2-x1;
 		int dy = y2-y1;
 
-		if (!dx || !dy) { 
+		if (!dx && !dy) { 
 			//std::cout << x1 << ";" << y1 << " .. " << x2 << ";" << y2 << std::endl;
 			DrawPoint(x1, y1, c);
 			return 1;
@@ -33,9 +33,15 @@ namespace PixTerm {
 			if (x1 > x2) {
 				i = x2;
 				j = x1;
+			//std::cout << "\nfirst if  " << i << " " << j << " " << x1 << " " << y1 << " " << dy << " "  << dx << std::endl;
 			} else {
 				i = x1;
 				j = x2;
+				dx *= -1;
+				dy *= -1;
+				x1 = x2;
+				y1 = y2;
+			//std::cout << "\nsecond if " << i << " " << j << " " << x1 << " " << y1 << " " << dy << " "  << dx << std::endl;
 			}
 
 			for (int x = i; x <= j; x++) {
@@ -51,6 +57,10 @@ namespace PixTerm {
 			} else {
 				i = y1;
 				j = y2;
+				dx *= -1;
+				dy *= -1;
+				x1 = x2;
+				y1 = y2;
 			}
 
 			for (int y = i; y <= j; y++) {

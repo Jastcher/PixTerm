@@ -41,9 +41,9 @@ namespace PixTerm {
 
 		unsigned int width;
 		unsigned int height;
-	private:
 		int GetX(float x);
 		int GetY(float y);
+	private:
 		void EraseLine(int y);
 		
 		unsigned char* screen;
