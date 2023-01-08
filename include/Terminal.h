@@ -1,8 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <thread>
 #include "Buffer.h"
 #include"glm/glm.hpp"
+#include <functional>
 
 namespace PixTerm {
 
@@ -39,12 +41,19 @@ namespace PixTerm {
 
 		bool PrintLogger();
 
+		bool SetTitle(const std::string&);
+
+		bool SetKeyCallback(const std::function<void (char)>& fn);
+
 		unsigned int width;
 		unsigned int height;
 		int GetX(float x);
 		int GetY(float y);
 	private:
+		std::thread* keyCallbackTh;
+		void GetKeyInput();
 		void EraseLine(int y);
+		std::function<void(char)> keyCallback;
 		
 		unsigned char* screen;
 		unsigned char* screenUpdate;

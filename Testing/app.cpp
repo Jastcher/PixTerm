@@ -5,19 +5,14 @@ unsigned long long int prev = std::chrono::duration_cast<std::chrono::millisecon
 unsigned long long int now = 0;
 float dt = 0;
 
-void* operator new(size_t size) {
-	void* mem = malloc(size);
-	std::cout << "Allocating memory: " << mem << " of size: " << size << " bytes" << std::endl;
-	return mem;
-}
+void aaa(char);
 
-void operator delete(void* mem) {
-	std::cout << "deleting memory: " << mem << std::endl;
-	free(mem);
-}
+float inc = 15.0f;
+
 int main() {
 
 	PixTerm::Terminal term;
+	term.SetKeyCallback(std::bind(&aaa, std::placeholders::_1));
 
 	float vertices3D[18] = { -0.5f,-0.5f,-0.5f,
 						    0.5f,-0.5f,-0.5f,
@@ -84,7 +79,7 @@ int main() {
 
 
 	float i = 0.0f;
-	for (; i <= 3600.0f; i+=15.0f*dt) {
+	for (; i <= 3600.0f; i+=inc*dt) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(2));
 		now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
@@ -98,7 +93,6 @@ int main() {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(-1.0f,0.0f,0.0f));
 		model = glm::rotate(model, glm::radians(i), glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::scale(model, glm::vec3(0.5f));
 
 		glm::mat4 model2 = glm::mat4(1.0f);
 		model2 = glm::translate(model2, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -123,5 +117,18 @@ int main() {
 		term.Render();
 	}
 
+
 	return 0;
+}
+
+void aaa(char c) {
+	switch (c) {
+		case 'a':
+			inc += 1.0f;
+			break;
+		case 'd':
+			inc -= 1.0f;
+			break;
+	};
+
 }
