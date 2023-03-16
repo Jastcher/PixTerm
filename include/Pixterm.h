@@ -7,6 +7,9 @@
 #include <utility>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 // native
 #include "Terminal.h"

@@ -23,14 +23,15 @@ namespace PixTerm {
 
 	Terminal::~Terminal() {
 		EraseLine(height);
-		keyCallbackTh->join();
-		delete keyCallbackTh;
+		
+		
 		delete screen;
 		delete screenUpdate;
 	};
 
 	bool Terminal::SetTitle(const std::string& s) {
 		std::cout << "\033]0;" << "fps: " << s << "\007";
+		return 1;
 	}
 
 	bool Terminal::Clear(unsigned char c) {

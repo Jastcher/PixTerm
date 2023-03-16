@@ -15,20 +15,21 @@ namespace PixTerm {
 		return 1;
 	}
 
-	bool Terminal::DrawLine(int x1, int y1, int x2, int y2, unsigned char c) {
+	bool Terminal::DrawLine(int x1, int y1, int x2, int y2, unsigned char c, std::vector<Point>* vec) {
+		std::vector<Point> vec1;
 		//logger.push_back("Drawing line in: " + std::to_string(x1) + " , " + std::to_string(y1) + " and " + std::to_string(x2) + " , " + std::to_string(y2));
 		int dx = x2-x1;
 		int dy = y2-y1;
 
+		int i,j;
 		if (!dx && !dy) { 
 			//std::cout << x1 << ";" << y1 << " .. " << x2 << ";" << y2 << std::endl;
-			DrawPoint(x1, y1, c);
-			return 1;
+			//DrawPoint(x1, y1, c);
+			vec1.push_back({x1, y1});
 		}
 
 
-		int i,j;
-		if (abs(x1 - x2) > abs(y1 - y2)) {
+		else if (abs(x1 - x2) > abs(y1 - y2)) {
 
 			if (x1 > x2) {
 				i = x2;
@@ -46,7 +47,8 @@ namespace PixTerm {
 
 			for (int x = i; x <= j; x++) {
 				int y = y1 + dy * (x-x1) / dx;
-				DrawPoint(x, y, c);
+				//DrawPoint(x, y, c);
+				vec1.push_back({x, y});
 			}
 
 		} else {
@@ -65,9 +67,16 @@ namespace PixTerm {
 
 			for (int y = i; y <= j; y++) {
 				int x = x1 + dx * (y-y1) / dy;
-				DrawPoint(x, y, c);
+				//DrawPoint(x, y, c);
+				vec1.push_back({x, y});
 			}
 
+		}
+
+		for (auto& i : vec1) {
+			DrawPoint(i.x, i.y, c);
+			if(vec)
+			vec->push_back(i);
 		}
 		
 		return 1;

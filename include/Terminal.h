@@ -13,6 +13,10 @@ namespace PixTerm {
 		glm::vec2 scale;
 		glm::vec2 rotation;
 	};
+
+	struct Point {
+		int x, y;
+	};
 	
 	class Terminal {
 	public:
@@ -31,8 +35,8 @@ namespace PixTerm {
 
 		// easy concept
 		bool DrawPoint(int x, int y, unsigned char c);
-		bool DrawLine(int x1, int y1, int x2, int y2, unsigned char c);
-		bool DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned char c);
+		bool DrawLine(int x1, int y1, int x2, int y2, unsigned char c, std::vector<Point>* vec = nullptr);
+		bool DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned char c, unsigned char fill = 0);
 		bool DrawQuad(int x, int y, int width, int height, unsigned char c);
 
 		bool DrawOverlay();
@@ -43,17 +47,13 @@ namespace PixTerm {
 
 		bool SetTitle(const std::string&);
 
-		bool SetKeyCallback(const std::function<void (char)>& fn);
-
 		unsigned int width;
 		unsigned int height;
 		int GetX(float x);
 		int GetY(float y);
+
 	private:
-		std::thread* keyCallbackTh;
-		void GetKeyInput();
 		void EraseLine(int y);
-		std::function<void(char)> keyCallback;
 		
 		unsigned char* screen;
 		unsigned char* screenUpdate;

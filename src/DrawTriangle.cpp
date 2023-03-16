@@ -54,11 +54,51 @@ namespace PixTerm {
 		return 1;
 	}
 
-	bool Terminal::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned char c) {
-		//logger.push_back("Drawing triangle in: " + std::to_string(x1) + " , " + std::to_string(y1) + " and " + std::to_string(x2) + " , " + std::to_string(y2) + " and " + std::to_string(x3) + " , " + std::to_string(y3));
-		bool first = DrawLine(x1, y1, x2, y2, c);
-		bool second = DrawLine(x2, y2, x3, y3, c);
-		bool third = DrawLine(x3, y3, x1, y1, c);
+	bool Terminal::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned char c, unsigned char fill) {
+		std::vector<Point> buffer;
+
+		bool first = DrawLine(x1, y1, x2, y2, c, &buffer);
+		bool second = DrawLine(x2, y2, x3, y3, c, &buffer);
+		bool third = DrawLine(x3, y3, x1, y1, c, &buffer);
+
+		if (fill) {
+			//for (auto& i : buffer) {
+			//	logger.push_back(std::to_string(i.x) + " " + std::to_string(i.y));
+			//}
+			
+			// get max Y and min Y
+			unsigned int minY = std::min(std::min(y1, y2), y3);
+			unsigned int maxY = std::max(std::max(y1, y2), y3);
+
+			std::vector<std::vector<Point>> vec;
+			vec.reserve(maxY-minY);
+			for(int i = 0; i <= maxY-minY; i++) {
+				vec.push_back({});
+			}
+
+			for (auto& i : buffer) {
+				vec[i.y-minY].push_back({i.x,i.y});
+			}
+
+			for (int i = 0; i <= maxY-minY; i++) {
+				std::sort(vec[i].begin(), vec[i].end(), [](Point& a, Point& b) { return a.x < b.x; }); // return 'a < b'
+				auto xL = vec[i][vec[i].size()-2].x;
+				auto xR = vec[i][vec[i].size()-1].x;
+				if (xR-xL > 0)
+				DrawLine(xL+1, i+minY, xR-1, i+minY, fill);
+			}
+
+			//std::string temp;
+			//for (int i = 0; i <= maxY-minY; i++) {
+			//	temp = std::to_string(i) + ": ";
+			//	for (auto& j : vec[i]) {
+			//		temp.append(std::to_string(j.x) + ", ");
+			//	}
+			//logger.push_back(temp);
+			//}
+			//logger.push_back(std::to_string(minY));
+			//logger.push_back(std::to_string(maxY));
+		}
 		return first || second || third;
 	}
 
