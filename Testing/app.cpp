@@ -5,6 +5,12 @@ unsigned long long int prev = std::chrono::duration_cast<std::chrono::millisecon
 unsigned long long int now = 0;
 float dt = 0;
 
+float* vertices = new float[]{
+	-0.5f, -0.5f,
+	 0.5f, -0.5f,
+	0.0f,   0.5f,
+};
+
 int main() {
 
 	PixTerm::Terminal term;
@@ -18,14 +24,26 @@ int main() {
 
 	term.SetTitle(std::to_string(1/dt));
 
-	term.Clear(' ');
-	term.DrawTriangle(term.width/4, term.height/4, term.width-term.width/4, term.height/4-5, term.width/2, term.height-term.height/4, 'a', 'b');
-	//term.DrawTriangle(term.width-term.width/4, term.height/4-5, term.width/4, term.height/4, term.width/2, term.height-term.height/4, 'a', 'b');
-	//term.DrawTriangle(term.width/2, term.height-term.height/4, term.width-term.width/4, term.height/4-5, term.width/4, term.height/4, 'a', 'b');
+	PixTerm::Buffer buff(vertices, 6);
 
-	term.DrawOverlay();
-	term.Render();
+	//term.DrawTriangle(term.width/4, term.height/4, term.width-term.width/4, term.height/4-5, term.width/2, term.height-term.height/4, 'a', 'b');
+	for (int i = 0; i > -1; i++) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		term.Clear(' ');
+		glm::mat4 model(1.0f);
+		model = glm::rotate(model, glm::radians((float)i), glm::vec3(1.0f));
+		term.DrawTriangles(buff, 'c', 0, model);
 
+		glm::mat4 model2(1.0f);
+		model2 = glm::translate(model2, glm::vec3(0.5f, 0.0f, 0.0f));
+		model2 = glm::rotate(model2, glm::radians((float)i), glm::vec3(1.0f));
+		term.DrawTriangles(buff, 'c', 'f', model2);
+		//term.DrawTriangle(term.width-term.width/4, term.height/4-5, term.width/4, term.height/4, term.width/2, term.height-term.height/4, 'a', 'b');
+		//term.DrawTriangle(term.width/2, term.height-term.height/4, term.width-term.width/4, term.height/4-5, term.width/4, term.height/4, 'a', 'b');
+
+		term.DrawOverlay();
+		term.Render();
+	}
 	//term.PrintLogger();
 
 	return 0;

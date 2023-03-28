@@ -1,7 +1,7 @@
 #include "Pixterm.h"
 
 namespace PixTerm {
-	bool Terminal::DrawTriangles(const Buffer &buffer, unsigned char c, const glm::mat4& model) {
+	bool Terminal::DrawTriangles(const Buffer &buffer, unsigned char c, unsigned char fill, const glm::mat4& model) {
 		if (buffer.is3D) {
 			for (int i = 0; i < buffer.mSize; i += 9) {
 				float x1 = (buffer.mData[i]); 
@@ -22,7 +22,7 @@ namespace PixTerm {
 
 				//std::cout << line1.x << " ; " << line1.y << " .. " << line2.x << " ; " << line2.y << " .. " << line3.x << " ; " << line3.y << std::endl;
 
-				DrawTriangle(GetX(line1.x), GetY(line1.y), GetX(line2.x), GetY(line2.y), GetX(line3.x), GetY(line3.y), c);
+				DrawTriangle(GetX(line1.x), GetY(line1.y), GetX(line2.x), GetY(line2.y), GetX(line3.x), GetY(line3.y), c, fill);
 			}
 			return 1;
 		}
@@ -46,7 +46,7 @@ namespace PixTerm {
 			//std::cout << std::endl;
 			//std::cout << line1.x << " ; " << line1.y << " .. " << line2.x << " ; " << line2.y << " .. " << line3.x << " ; " << line3.y << std::endl;
 			//std::cout << GetX(line1.x) << " ; " << GetY(line1.y) << " .. " << GetX(line2.x) << " ; " << GetY(line2.y) << " .. "  << GetX(line3.x) << " ; " << GetY(line3.y) << std::endl;
-			DrawTriangle(GetX(line1.x), GetY(line1.y), GetX(line2.x), GetY(line2.y), GetX(line3.x), GetY(line3.y), c);
+			DrawTriangle(GetX(line1.x), GetY(line1.y), GetX(line2.x), GetY(line2.y), GetX(line3.x), GetY(line3.y), c, fill);
 		}
 
 		//std::cout << "DRAW DONE" << std::endl;
@@ -84,6 +84,17 @@ namespace PixTerm {
 				std::sort(vec[i].begin(), vec[i].end(), [](Point& a, Point& b) { return a.x < b.x; }); // return 'a < b'
 				auto xL = vec[i][vec[i].size()-2].x;
 				auto xR = vec[i][vec[i].size()-1].x;
+
+				for (int j = 1; j < vec[i].size(); j++) {
+
+					if ((vec[i][j].x - vec[i][j-1].x) > 1) {
+						xL = vec[i][j-1].x;
+						xR = vec[i][j].x;
+						break;
+					}
+				}
+
+
 				if (xR-xL > 0)
 				DrawLine(xL+1, i+minY, xR-1, i+minY, fill);
 			}
